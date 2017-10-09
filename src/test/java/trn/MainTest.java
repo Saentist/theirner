@@ -153,4 +153,16 @@ public class MainTest extends TestCase {
 
         System.out.println("publicAddress: " + publicAddress.toString());
     }
+
+    public void testSpec() {
+
+        NetworkParameters params = new MainNetParams();
+
+        BigInteger val = new BigInteger("115792053813842755482742594882237375967638649699511867651766424180141492677438", 10);
+        ECKey key = ECKey.fromPrivate(val);
+
+        String publicAddress = key.toAddress(params).toString();
+
+        System.out.println("publicAddress: " + publicAddress.toString());
+    }
 }
