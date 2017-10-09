@@ -165,4 +165,9 @@ public class MainTest extends TestCase {
 
         System.out.println("publicAddress: " + publicAddress.toString());
     }
+
+    public void testBeep() {
+        System.out.print("\007");
+        System.out.flush();
+    }
 }

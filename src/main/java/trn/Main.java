@@ -25,7 +25,7 @@ public class Main {
         }
 
         Timer timer = new Timer();
-        TimerTask hourlyTask = new TimerTask() {
+        TimerTask minutelyTask = new TimerTask() {
             @Override
             public void run() {
                 writer.append("Processed: " + counter.get() + "\n");
@@ -33,8 +33,6 @@ public class Main {
             }
         };
 
-        timer.schedule(hourlyTask, 0l, 1000 * 60);
-        // timer.schedule(hourlyTask, 0l, 1000);
+        timer.schedule(minutelyTask, 0l, 1000 * 60);
     }
-
 }

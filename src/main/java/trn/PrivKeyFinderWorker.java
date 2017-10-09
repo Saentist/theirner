@@ -30,28 +30,20 @@ public class PrivKeyFinderWorker implements Runnable {
         ECKey key;
         String testBtcAddr;
 
-
-        key = getNewECKey();
-        testBtcAddr = getBtcAddress(key);
-
         logInfo("Started..");
 
-        //long checked = 0;
-
         do {
-            //key = getNewECKey();
-            //testBtcAddr = getBtcAddress(key);
-            /*checked++;
-            if (checked % 1_000_000 == 0) {
-                //System.out.println("checks: " + checked);
-            }*/
-
+            key = getNewECKey();
+            testBtcAddr = getBtcAddress(key);
             counter.incrementAndGet();
         } while (!bloomFilter.has(testBtcAddr));
 
         logInfo("" +
                 " Address found:  \n" +
                 "      " + testBtcAddr);
+
+        System.out.print("\007");
+        System.out.flush();
 
         logInfo("" +
                 " For private key:\n" +
