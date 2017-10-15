@@ -34,6 +34,13 @@
             <version>0.14.5</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.jocl</groupId>
+            <artifactId>jocl</artifactId>
+            <version>0.1.9</version>
+        </dependency>
+
+
     </dependencies>
 
 
