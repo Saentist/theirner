@@ -59,3 +59,14 @@ echo 'export LLVM_BIN=/opt/amdgpu-pro/bin' | sudo tee /etc/profile.d/amdgpu-pro.
 See the Ubuntu Environment Variables Community Help for more information.
 To set it permanently for all csh users, you can use the following command:
 echo 'setenv LLVM_BIN /opt/amdgpu-pro/bin' | sudo tee /etc/profile.d/amdgpu-pro.csh
+
+
+
+
+java
+
+http://download.oracle.com/otn-pub/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/jdk-8u144-linux-x64.rpm
+
+rpm -ivh jdk-8u144-linux-x64.rpm
+
+
