@@ -1,4 +1,14 @@
 
+uname -r
+                
+                3.10.0-229.1.2.47109.MSSr1.el7.centos.x86_64
+                
+                
+rpm -qa kernel
+
+                kernel-3.10.0-229.1.2.47109.MSSr1.el7.centos.x86_64
+
+                
 
 usermod -a -G video aillusions
 
@@ -196,6 +206,41 @@ find / -name "i915"
             /usr/src/kernels/3.10.0-693.2.2.el7.x86_64/include/config/drm/i915
             /MSS/rpmbuild/BUILD/kernel-3.10.0-229.1.2.el7/linux-3.10.0-229.1.2.47109.MSSr1.el7.centos.x86_64/drivers/gpu/drm/i915
             /MSS/rpmbuild/BUILD/kernel-3.10.0-229.1.2.el7/linux-3.10.0-229.1.2.47109.MSSr1.el7.centos.x86_64/include/config/drm/i915
+            
+            
+ldd --version 
+
+            ldd (GNU libc) 2.17
+            
+                        
+=====================            
+=====================            
+=====================            
+=====================
+
+
+tar -xvzf MediaServerStudio*.tar.gz
+cd MediaServerStudio*
+tar -xvzf SDK*.tar.gz
+cd SDK*
+cd CentOS
+tar -xvzf install_scripts*.tar.gz
+
+
+(as root)
+./install_sdk_UMD_CentOS.sh
+mkdir /MSS
+chown {regular user}:{regular group} /MSS
+
+(as regular user)
+$ cp build_kernel_rpm_CentOS.sh /MSS
+$ cd /MSS
+$ ./build_kernel_rpm*.sh
+
+(as root)
+cd /MSS/rpmbuild/RPMS/x86_64
+rpm -Uvh kernel-3.10.*.rpm
+reboot            
             
             
 echo $MFX_HOME               
