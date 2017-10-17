@@ -1,31 +1,32 @@
 
-wget http://archive.kernel.org/centos-vault/6.8/isos/x86_64/CentOS-6.8-x86_64-bin-DVD1.iso
-dd if=CentOS-6.8-x86_64-bin-DVD1.iso of=/dev/sdb bs=1M
-
-Install minimal CentOS
-
-yum update 
-sudo su
-echo "export LC_ALL=en_US.UTF-8" >> /etc/profile
-yum groupinstall "Development Tools"
-yum install wget git screen tree -y
+http://vault.centos.org/7.1.1503/isos/x86_64/
+http://archive.kernel.org/centos-vault/7.1.1503/isos/x86_64/
 
 
-
+cd ~/Downloads
+wget http://archive.kernel.org/centos-vault/7.1.1503/isos/x86_64/CentOS-7-x86_64-DVD-1503-01.iso
 
 lsblk
 
-NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
-sda           8:0    0 111.8G  0 disk 
-|-sda1        8:1    0   200M  0 part /boot/efi
-|-sda2        8:2    0     1G  0 part /boot
-`-sda3        8:3    0 110.6G  0 part 
-  |-cl-root 253:0    0    50G  0 lvm  /
-  |-cl-swap 253:1    0   9.8G  0 lvm  [SWAP]
-  `-cl-home 253:2    0  50.8G  0 lvm  /home
-sdb           8:16   1  14.7G  0 disk 
-|-sdb1        8:17   1   7.7G  0 part 
-`-sdb2        8:18   1   6.1M  0 part 
+            NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+            sda           8:0    0 111.8G  0 disk 
+            |-sda1        8:1    0   200M  0 part /boot/efi
+            |-sda2        8:2    0     1G  0 part /boot
+            `-sda3        8:3    0 110.6G  0 part 
+              |-cl-root 253:0    0    50G  0 lvm  /
+              |-cl-swap 253:1    0   9.8G  0 lvm  [SWAP]
+              `-cl-home 253:2    0  50.8G  0 lvm  /home
+            sdb           8:16   1  14.7G  0 disk 
+            |-sdb1        8:17   1   7.7G  0 part 
+            `-sdb2        8:18   1   6.1M  0 part 
+
+
+dd if=CentOS-7-x86_64-DVD-1503-01.iso of=/dev/sdb bs=1M
+
+
+....... Install "Development and Creative Workstation"
+
+yum install wget git screen tree -y
 
 
 
