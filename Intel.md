@@ -8,8 +8,91 @@ rpm -qa kernel
 
                 kernel-3.10.0-229.1.2.47109.MSSr1.el7.centos.x86_64
 
-                
 
+ls -la /usr/lib64/libva*
+
+            lrwxrwxrwx. 1 root root     21 Oct 16 19:14 /usr/lib64/libva-drm.so -> libva-drm.so.1.9900.0
+            lrwxrwxrwx. 1 root root     21 Oct 16 19:14 /usr/lib64/libva-drm.so.1 -> libva-drm.so.1.9900.0
+            -rwxr-xr-x. 1 root root  11344 Dec  7  2015 /usr/lib64/libva-drm.so.1.9900.0
+            lrwxrwxrwx. 1 root root     21 Oct 16 19:14 /usr/lib64/libva-glx.so -> libva-glx.so.1.9900.0
+            lrwxrwxrwx. 1 root root     21 Oct 16 19:14 /usr/lib64/libva-glx.so.1 -> libva-glx.so.1.9900.0
+            -rwxr-xr-x. 1 root root  20120 Dec  7  2015 /usr/lib64/libva-glx.so.1.9900.0
+            lrwxrwxrwx. 1 root root     21 Oct 16 19:14 /usr/lib64/libva-tpi.so -> libva-tpi.so.1.9900.0
+            lrwxrwxrwx. 1 root root     21 Oct 16 19:14 /usr/lib64/libva-tpi.so.1 -> libva-tpi.so.1.9900.0
+            -rwxr-xr-x. 1 root root   6840 Dec  7  2015 /usr/lib64/libva-tpi.so.1.9900.0
+            lrwxrwxrwx. 1 root root     21 Oct 16 19:14 /usr/lib64/libva-x11.so -> libva-x11.so.1.9900.0
+            lrwxrwxrwx. 1 root root     21 Oct 16 19:14 /usr/lib64/libva-x11.so.1 -> libva-x11.so.1.9900.0
+            -rwxr-xr-x. 1 root root  32984 Dec  7  2015 /usr/lib64/libva-x11.so.1.9900.0
+            lrwxrwxrwx. 1 root root     17 Oct 16 19:14 /usr/lib64/libva.so -> libva.so.1.9900.0
+            lrwxrwxrwx. 1 root root     17 Oct 16 19:14 /usr/lib64/libva.so.1 -> libva.so.1.9900.0
+            -rwxr-xr-x. 1 root root 119248 Dec  7  2015 /usr/lib64/libva.so.1.9900.0
+        
+        
+ldd -r -v /usr/lib64/libva.so
+
+        	linux-vdso.so.1 =>  (0x00007fff67d52000)
+        	libdl.so.2 => /lib64/libdl.so.2 (0x00007f9926f40000)
+        	libc.so.6 => /lib64/libc.so.6 (0x00007f9926b7f000)
+        	/lib64/ld-linux-x86-64.so.2 (0x00007f9927377000)
+        
+        	Version information:
+        	/usr/lib64/libva.so:
+        		libdl.so.2 (GLIBC_2.2.5) => /lib64/libdl.so.2
+        		libc.so.6 (GLIBC_2.4) => /lib64/libc.so.6
+        		libc.so.6 (GLIBC_2.3.4) => /lib64/libc.so.6
+        		libc.so.6 (GLIBC_2.2.5) => /lib64/libc.so.6
+        	/lib64/libdl.so.2:
+        		ld-linux-x86-64.so.2 (GLIBC_PRIVATE) => /lib64/ld-linux-x86-64.so.2
+        		libc.so.6 (GLIBC_PRIVATE) => /lib64/libc.so.6
+        		libc.so.6 (GLIBC_2.2.5) => /lib64/libc.so.6
+        	/lib64/libc.so.6:
+        		ld-linux-x86-64.so.2 (GLIBC_2.3) => /lib64/ld-linux-x86-64.so.2
+        		ld-linux-x86-64.so.2 (GLIBC_PRIVATE) => /lib64/ld-linux-x86-64.so.2
+
+ldconfig -p | grep libva.so
+
+strings /usr/lib64/libva.so
+
+
+ls -la /usr/lib64/libdrm*
+    
+            lrwxrwxrwx. 1 root root     15 Oct 16 19:14 /usr/lib64/libdrm.so -> libdrm.so.2.4.0
+            lrwxrwxrwx. 1 root root     15 Oct 16 19:14 /usr/lib64/libdrm.so.2 -> libdrm.so.2.4.0
+            -rwxr-xr-x. 1 root root  49840 Dec  7  2015 /usr/lib64/libdrm.so.2.4.0
+            lrwxrwxrwx. 1 root root     21 Oct 16 19:14 /usr/lib64/libdrm_intel.so -> libdrm_intel.so.1.0.0
+            lrwxrwxrwx. 1 root root     21 Oct 16 19:14 /usr/lib64/libdrm_intel.so.1 -> libdrm_intel.so.1.0.0
+            -rwxr-xr-x. 1 root root 137896 Dec  7  2015 /usr/lib64/libdrm_intel.so.1.0.0
+            lrwxrwxrwx. 1 root root     23 Oct 16 19:14 /usr/lib64/libdrm_nouveau.so -> libdrm_nouveau.so.2.0.0
+            lrwxrwxrwx. 1 root root     23 Oct 16 19:14 /usr/lib64/libdrm_nouveau.so.2 -> libdrm_nouveau.so.2.0.0
+            -rwxr-xr-x. 1 root root  28232 Dec  7  2015 /usr/lib64/libdrm_nouveau.so.2.0.0
+            lrwxrwxrwx. 1 root root     22 Oct 16 19:14 /usr/lib64/libdrm_radeon.so -> libdrm_radeon.so.1.0.1
+            lrwxrwxrwx. 1 root root     22 Oct 16 19:14 /usr/lib64/libdrm_radeon.so.1 -> libdrm_radeon.so.1.0.1
+            -rwxr-xr-x. 1 root root  57616 Dec  7  2015 /usr/lib64/libdrm_radeon.so.1.0.1
+
+
+ldd -r -v /usr/lib64/libdrm.so
+
+                linux-vdso.so.1 =>  (0x00007fff727bf000)
+                libc.so.6 => /lib64/libc.so.6 (0x00007f2063800000)
+                /lib64/ld-linux-x86-64.so.2 (0x00007f2063de3000)
+            
+                Version information:
+                /usr/lib64/libdrm.so:
+                    libc.so.6 (GLIBC_2.7) => /lib64/libc.so.6
+                    libc.so.6 (GLIBC_2.14) => /lib64/libc.so.6
+                    libc.so.6 (GLIBC_2.4) => /lib64/libc.so.6
+                    libc.so.6 (GLIBC_2.17) => /lib64/libc.so.6
+                    libc.so.6 (GLIBC_2.3.4) => /lib64/libc.so.6
+                    libc.so.6 (GLIBC_2.2.5) => /lib64/libc.so.6
+                /lib64/libc.so.6:
+                    ld-linux-x86-64.so.2 (GLIBC_2.3) => /lib64/ld-linux-x86-64.so.2
+                    ld-linux-x86-64.so.2 (GLIBC_PRIVATE) => /lib64/ld-linux-x86-64.so.2
+                		
+                		
+ldconfig -p | grep libdrm.so
+
+                		
+                		
 usermod -a -G video aillusions
 
 sudo lshw
@@ -467,7 +550,7 @@ mkdir /opt/intel/mediasdk/samples
 copy /Users/mac/Downloads/Intel/MediaSamples_Linux_2016/* to /opt/intel/mediasdk
 
 sudo yum install libX11-devel
-sudo yum install mesa-libGL-devel --skip-broken 
+sudo yum install mesa-libGL-devel
 
 cd /opt/intel/mediasdk/samples
 
