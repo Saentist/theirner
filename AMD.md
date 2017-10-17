@@ -1,4 +1,14 @@
 
+
+
+AMD Radeon™ R7 2​00 Series Graphics
+
+R7 260
+
+Sea Islands	BONAIRE
+
+
+
 https://en.wikipedia.org/wiki/List_of_AMD_graphics_processing_units
 
     Radeon R7 260 Bonaire

@@ -1,7 +1,8 @@
 
+
+
 http://vault.centos.org/7.1.1503/isos/x86_64/
 http://archive.kernel.org/centos-vault/7.1.1503/isos/x86_64/
-
 
 cd ~/Downloads
 wget http://archive.kernel.org/centos-vault/7.1.1503/isos/x86_64/CentOS-7-x86_64-DVD-1503-01.iso
@@ -20,14 +21,48 @@ lsblk
             |-sdb1        8:17   1   7.7G  0 part 
             `-sdb2        8:18   1   6.1M  0 part 
 
-
 dd if=CentOS-7-x86_64-DVD-1503-01.iso of=/dev/sdb bs=1M
-
 
 ....... Install "Development and Creative Workstation"
 
+sudo su
+
 yum install wget git screen tree -y
 
+rpm -qa kernel
+
+        kernel-3.10.0-229.el7.x86_64
+        
+ldd --version 
+        
+        dd (GNU libc) 2.17
+        
+rpm -q libdrm        
+        
+        libdrm-2.4.56-2.el7.x86_64
+        
+rpm -qa | grep libdrm
+
+        libdrm-2.4.56-2.el7.x86_64
+        
+        
+cat /etc/redhat-release 
+            
+        CentOS Linux release 7.1.1503 (Core)      
+     
+
+mkdir -p /home/aillusions/Downloads/AMD_GPU_PRO/CentOS7_1
+
+wget --header="Referer: http://support.amd.com"  https://www2.ati.com/drivers/linux/amdgpu-pro-preinstall_v1.4.sh
+
+cd /home/aillusions/Downloads/AMD_GPU_PRO/CentOS7_1
+wget --header="Referer: http://support.amd.com" https://www2.ati.com/drivers/linux/rhel7/amdgpu-pro-16.40-348864.tar.xz
+
+sh amdgpu-pro-preinstall_v1.4.sh
+
+tar -Jxvf amdgpu-pro-16.40-348864.tar.xz 
+
+cd amdgpu-pro-16.40-348864/
 
 
 The CentOS install was pretty much straight forward choosing Development and Creative Workstation as install schema. 
