@@ -284,3 +284,27 @@ ldd /opt/amdgpu-pro/lib64/libamdocl64.so
             libpthread.so.0 => /lib64/libpthread.so.0 (0x00007f3ba872c000)
             libc.so.6 => /lib64/libc.so.6 (0x00007f3ba8398000)
             /lib64/ld-linux-x86-64.so.2 (0x00007f3bacec3000)     
+            
+            
+            
+            
+            
+            
+            
+====================
+====================
+====================
+====================
+
+
+cd /home/aillusions/Downloads/AMD
+
+sh amdgpu-pro-preinstall_v1.4.sh –-check
+
+
+cd /home/aillusions/Downloads/AMD/amdgpu-pro-17.10-414273
+
+
+#from GUI 
+
+./amdgpu-pro-instal
