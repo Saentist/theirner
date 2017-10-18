@@ -9,6 +9,18 @@ Sea Islands	BONAIRE
 
 
 
+http://support.amd.com/en-us/download/desktop?os=RHEL+x86+64#
+
+
+
+mkdir -p /home/aillusions/Downloads/Crimson
+cd /home/aillusions/Downloads/Crimson
+
+wget --header="Referer: http://support.amd.com" https://www2.ati.com/drivers/linux/fglrx64_p_i_c-15.302-1.x86_64_rhel7_64a.rpm
+
+yum localinstall ./fglrx64_p_i_c-15.302-1.x86_64_rhel7_64a.rpm
+
+
 https://en.wikipedia.org/wiki/List_of_AMD_graphics_processing_units
 
     Radeon R7 260 Bonaire

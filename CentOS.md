@@ -21,7 +21,7 @@ lsblk
             |-sdb1        8:17   1   7.7G  0 part 
             `-sdb2        8:18   1   6.1M  0 part 
 
-dd if=CentOS-7-x86_64-DVD-1503-01.iso of=/dev/sdb bs=1M
+ dd if=./ubuntu-16.04.3-desktop-amd64.iso of=/dev/sdb bs=1M
 
 ....... Install "Development and Creative Workstation"
 
