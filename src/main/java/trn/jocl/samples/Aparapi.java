@@ -13,7 +13,7 @@ public class Aparapi {
 
     public static void main(String[] args) {
 
-        final int[] inA = IntStream.range(0, 10000000).toArray();
+        final int[] inA = IntStream.range(0, 100).toArray();
 
         final int[] inB = inA;
 
@@ -23,7 +23,7 @@ public class Aparapi {
             @Override
             public void run() {
                 int i = getGlobalId();
-                for (int ax = 0; ax < 1000000000; ax++) {
+                for (long ax = 0; ax < 10000000000000000L; ax++) {
                     result[i] = inA[i] + inB[i];
                     for (int dx = 0; dx < 1000000000; dx++) {
                         result[i] = inA[i] + inB[i];
