@@ -75,5 +75,4 @@ public class PrivKeyFinderWorker implements Runnable {
         return addressFromKey.toBase58();
     }
 
-
 }

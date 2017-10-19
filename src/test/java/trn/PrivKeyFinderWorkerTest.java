@@ -1,7 +1,10 @@
 package trn;
 
 import junit.framework.TestCase;
+import org.bitcoinj.core.ECKey;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -20,7 +23,7 @@ public class PrivKeyFinderWorkerTest extends TestCase {
         long start = System.currentTimeMillis();
 
         long val = 0;
-        for (long i = 0; i <= ONE_MILLION; i++) {
+        for (long i = 1; i <= ONE_MILLION; i++) {
             val++;
         }
 
@@ -31,7 +34,7 @@ public class PrivKeyFinderWorkerTest extends TestCase {
         long start = System.currentTimeMillis();
 
         long val = 0;
-        for (long i = 0; i <= ONE_MILLION; i++) {
+        for (long i = 1; i <= ONE_MILLION; i++) {
             val++;
             counterVol++;
         }
@@ -43,7 +46,7 @@ public class PrivKeyFinderWorkerTest extends TestCase {
         long start = System.currentTimeMillis();
 
         long val = 0;
-        for (long i = 0; i <= ONE_MILLION; i++) {
+        for (long i = 1; i <= ONE_MILLION; i++) {
             val++;
             counterAtom.incrementAndGet();
         }
@@ -58,7 +61,7 @@ public class PrivKeyFinderWorkerTest extends TestCase {
         long start = System.currentTimeMillis();
 
         long val = 0;
-        for (long i = 0; i <= ONE_MILLION; i++) {
+        for (long i = 1; i <= ONE_MILLION; i++) {
             val++;
             bloomFilter.has("test");
         }
@@ -73,7 +76,7 @@ public class PrivKeyFinderWorkerTest extends TestCase {
         long start = System.currentTimeMillis();
 
         long val = 0;
-        for (long i = 0; i <= ONE_MILLION; i++) {
+        for (long i = 1; i <= ONE_THOUSAND; i++) {
             val++;
             bloomFilter.has("test" + i);
         }
@@ -86,11 +89,63 @@ public class PrivKeyFinderWorkerTest extends TestCase {
         long start = System.currentTimeMillis();
 
         long val = 0;
-        for (long i = 0; i <= ONE_THOUSAND; i++) {
+        for (long i = 1; i <= ONE_THOUSAND; i++) {
             val++;
             PrivKeyFinderWorker.getNewECKey();
         }
 
         System.out.println("testNewKey: " + (System.currentTimeMillis() - start) + " ms. (" + val + ")");
+    }
+
+    public void testAddr() {
+
+        long start = System.currentTimeMillis();
+
+        ECKey key = PrivKeyFinderWorker.getNewECKey();
+        long val = 0;
+        for (long i = 1; i <= ONE_THOUSAND; i++) {
+            val++;
+
+            PrivKeyFinderWorker.getBtcAddress(key);
+        }
+
+        System.out.println("testAddr: " + (System.currentTimeMillis() - start) + " ms. (" + val + ")");
+    }
+
+    public void testSecureRand() {
+
+        long start = System.currentTimeMillis();
+
+        SecureRandom secureRandom = new SecureRandom();
+
+        int bitsLength = 32;
+        byte[] bytes = new byte[bitsLength];
+
+        long val = 0;
+        for (long i = 1; i <= ONE_THOUSAND; i++) {
+            val++;
+
+            secureRandom.nextBytes(bytes);
+        }
+
+        System.out.println("testSecureRand: " + (System.currentTimeMillis() - start) + " ms. (" + val + ")");
+    }
+
+    public void testNewBigInt() {
+
+        long start = System.currentTimeMillis();
+
+        SecureRandom secureRandom = new SecureRandom();
+
+        int bitsLength = 32;
+
+        BigInteger d;
+        long val = 0;
+        for (long i = 1; i <= ONE_THOUSAND; i++) {
+            val++;
+            d = new BigInteger(bitsLength, secureRandom);
+        }
+
+        System.out.println("testNewBigInt: " + (System.currentTimeMillis() - start) + " ms. (" + val + ")");
     }
 }
