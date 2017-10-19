@@ -27,3 +27,12 @@ https://bitcointalk.org/index.php?topic=25804.0
 
 https://en.bitcoin.it/wiki/Vanitygen
 
+
+
+/vanitygen -f PrefixList.txt -o GeneratedAddresses_cpu.txt > GeneratedAddresses_cpu.log &
+
+/oclvanitygen -f PrefixList.txt -o GeneratedAddresses_gpu.txt > GeneratedAddresses_gpu.log &
+
+
+[8.17 Mkey/s] GPU 
+[1.92 Mkey/s] CPU
