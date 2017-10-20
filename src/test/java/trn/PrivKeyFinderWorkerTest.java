@@ -9,6 +9,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * @author aillusions
+ *
  */
 public class PrivKeyFinderWorkerTest extends TestCase {
 
