@@ -26,7 +26,7 @@ public class DormantAddressProvider {
             do {
 
                 line = bufReader.readLine();
-                if (line != null && !line.trim().isEmpty()) {
+                if (line != null && !line.trim().isEmpty() && !line.startsWith("3")) {
                     listOfLines.add(line);
                 }
 

@@ -27,6 +27,8 @@ public class DormantAddressProviderTest extends TestCase {
             System.out.println(duplicates);
         }
 
+        System.out.println(provider.getDormantAddresses().size() + " in total");
+
 
         assertEquals(provider.getDormantAddresses().size(), new HashSet<>(provider.getDormantAddresses()).size());
     }
