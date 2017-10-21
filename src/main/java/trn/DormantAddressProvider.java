@@ -1,5 +1,7 @@
 package trn;
 
+import com.sun.tools.javac.util.StringUtils;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,17 +17,21 @@ public class DormantAddressProvider {
 
     public DormantAddressProvider() {
 
+        listOfLines = new ArrayList<>();
+
         try {
             BufferedReader bufReader = new BufferedReader(new InputStreamReader(DormantAddressProvider.class.getClassLoader().getResourceAsStream("dormant.txt")));
-            listOfLines = new ArrayList<>();
-            String line = null;
 
-            line = bufReader.readLine();
+            String line;
+            do {
 
-            while (line != null) {
-                listOfLines.add(line);
                 line = bufReader.readLine();
-            }
+                if (line != null && !line.trim().isEmpty()) {
+                    listOfLines.add(line);
+                }
+
+            } while (line != null);
+
             bufReader.close();
         } catch (IOException e) {
             e.printStackTrace();
