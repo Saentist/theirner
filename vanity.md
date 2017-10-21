@@ -38,8 +38,8 @@ tail -f GeneratedAddresses_cpu.log & tail -f GeneratedAddresses_gpu.log
 multitail -f GeneratedAddresses_cpu.log GeneratedAddresses_gpu.log 
 
 
-[8.17 Mkey/s] GPU 
-[1.92 Mkey/s] CPU
+[8.17 Mkey/s] Radeon R7 260 Bonaire 
+[1.92 Mkey/s] Intel(R) Core(TM) i7-4790K CPU @ 4.00GHz
 
 
 
@@ -70,3 +70,10 @@ Available OpenCL platforms:
 ./oclvanitygen -d2 1a1exz
 
 
+
+
+REPOS
+
+https://github.com/samr7/vanitygen [genuine?] 
+https://github.com/exploitagency/vanitygen-plus [popular]
+https://github.com/pendashteh/vanitygen
