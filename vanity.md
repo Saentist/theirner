@@ -40,3 +40,33 @@ multitail -f GeneratedAddresses_cpu.log GeneratedAddresses_gpu.log
 
 [8.17 Mkey/s] GPU 
 [1.92 Mkey/s] CPU
+
+
+
+
+git clone https://github.com/pendashteh/vanitygen.git
+checkout macosx
+
+
+$ brew install openssl && brew install pcre
+$ make -f Makefile.macosx
+
+./vanitygen 1aaaa
+[361.70 Kkey/s]
+
+./oclvanitygen 1aaaa
+Available OpenCL platforms:
+0: [Apple] Apple
+  0: [Intel] Intel(R) Core(TM) i7-4870HQ CPU @ 2.50GHz
+  1: [Intel] Iris Pro
+  2: [AMD] AMD Radeon R9 M370X Compute Engine
+
+
+[956.05 Kkey/s] i7-4870HQ CPU
+[4.38 Mkey/s] Iris Pro
+[9.49 Mkey/s] AMD Radeon R9 M370X
+
+
+./oclvanitygen -d2 1a1exz
+
+
