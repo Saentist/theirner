@@ -18,8 +18,10 @@ public class AddrGenerator {
         for (int i = 0; i < 1_000_000; i++) {
             ECKey key = getNewECKey();
             String testBtcAddr = getBtcAddress(key);
-            writer.append(testBtcAddr + "\n");
-            writer.flush();
+            //writer.append(testBtcAddr + "\n");
+            writer.append(testBtcAddr.substring(0, 27) + "\n");
         }
+
+        writer.flush();
     }
 }
