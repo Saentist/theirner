@@ -1,6 +1,5 @@
 package trn;
 
-import com.sun.tools.javac.util.StringUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
