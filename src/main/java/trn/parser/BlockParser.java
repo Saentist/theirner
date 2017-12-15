@@ -108,7 +108,7 @@ public class BlockParser {
     }
 
 
-    private static String uniqueTransKey(String hashPrevOut, String indexPrevOut) {
+    public static String uniqueTransKey(String hashPrevOut, String indexPrevOut) {
         return hashPrevOut/*.substring(0, 30) */ + "" + indexPrevOut;
     }
 

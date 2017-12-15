@@ -22,8 +22,13 @@ public class BlockParserTest extends TestCase {
 
         int i = 0;
         BufferedReader br = new BufferedReader(new FileReader(BlockParser.tx_in_csv));
-        while (br.readLine() != null) {
+        String line;
+        while ((line = br.readLine()) != null) {
             i++;
+
+            //String[] lineSplit = line.split(BlockParser.CVS_SPLIT_BY, -1);
+            //String uqTr = BlockParser.uniqueTransKey(TxIn.hashPrevOut(lineSplit), TxIn.indexPrevOut(lineSplit));
+            //BlockParser.BLOOM_FILTER.put(uqTr);
 
             if (i % 1_000_000 == 0) {
                 long totalSpentMs = System.currentTimeMillis() - start;
