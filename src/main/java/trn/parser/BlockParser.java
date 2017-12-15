@@ -11,7 +11,8 @@ public class BlockParser {
     public static final String CVS_SPLIT_BY = ";";
     public static final String tx_in_csv = "g:\\csv_dump\\tx_in.csv.tmp";
     public static final String tx_out_csv = "g:\\csv_dump\\tx_out.csv.tmp";
-    public static final String unspent_outs = "unspent_outs.txt";
+    public static final String unspent_outs = "g:\\csv_dump\\unspent_outs.txt";
+    public static final String unspent_uq = "g:\\csv_dump\\unspent_uq.txt";
 
     public static BloomFilter BLOOM_FILTER = BloomFilter.create(
             Funnels.stringFunnel(Charset.forName("UTF-8")),
@@ -105,6 +106,8 @@ public class BlockParser {
                     }
                 }
         );
+
+        writer.close();
     }
 
 
