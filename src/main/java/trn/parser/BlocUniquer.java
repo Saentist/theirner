@@ -3,16 +3,20 @@ package trn.parser;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class BlocUniquer {
 
     public static void main(String[] args) throws IOException {
 
-        Set<String> pritedAddresses = new HashSet<>();
 
-        PrintWriter writer = new PrintWriter(new FileWriter(BlockParser.unspent_uq, false));
+        PrintWriter writer_unspent_uq = new PrintWriter(new FileWriter(BlockParser.unspent_uq, false));
+        PrintWriter writer_unspent_total = new PrintWriter(new FileWriter(BlockParser.unspent_total, false));
+
+        Map<String, Long> unspent = new HashMap<>();
 
         BlockParser.readFileLines(BlockParser.unspent_outs,
 
@@ -34,21 +38,52 @@ public class BlocUniquer {
                 },
                 new BlockParser.IFileLineReader() {
 
+                    Set<String> printedAddresses = new HashSet<>();
+
                     @Override
                     public void onLineRead(String line) {
                         String[] lineSplit = line.split(BlockParser.CVS_SPLIT_BY, -1);
 
                         String address = lineSplit[0];
 
-                        if (!pritedAddresses.contains(address)) {
+                        if (!printedAddresses.contains(address)) {
                             String addrrCut = address.length() > 27 ? address.substring(0, 27) : address;
-                            writer.append(addrrCut + "\r\n");
-                            pritedAddresses.add(address);
+                            writer_unspent_uq.append(addrrCut + "\r\n");
+                            printedAddresses.add(address);
+                        }
+                    }
+                },
+                new BlockParser.IFileLineReader() {
+
+                    @Override
+                    public void onLineRead(String line) {
+                        String[] lineSplit = line.split(BlockParser.CVS_SPLIT_BY, -1);
+
+                        String address = lineSplit[0];
+                        String amountStr = lineSplit[1];
+                        long amount = Long.parseLong(amountStr);
+
+                        if (unspent.containsKey(address)) {
+                            unspent.put(address, unspent.get(address) + amount);
+                        } else {
+                            unspent.put(address, amount);
                         }
                     }
                 }
         );
 
-        writer.close();
+        writer_unspent_uq.close();
+
+        for (String address : unspent.keySet()) {
+            long amount = unspent.get(address);
+
+            if (amount >= 1_000_000) { // 0.01 BTC
+                writer_unspent_total.append(address + ": " + (amount / 100_000_000F) + "\r\n");
+            }
+        }
+
+        writer_unspent_total.close();
+
+        System.out.println("BlocUniquer: done.");
     }
 }
