@@ -24,90 +24,107 @@ public class BlockParser {
         long start = System.currentTimeMillis();
 
         // @txid, @hashPrevOut, indexPrevOut, scriptSig, sequence
-        readBloomFilter(tx_in_csv);
+        readBloomFilter();
 
         // @txid, indexOut, value, @scriptPubKey, address
-        unspentOuts(tx_out_csv);
+        unspentOuts();
 
         System.out.println(" Done in " + (System.currentTimeMillis() - start) + " ms. ");
     }
 
-    public static void unspentOuts(String csvFile) throws IOException {
+    public static void unspentOuts() throws IOException {
 
         PrintWriter writer = new PrintWriter(new FileWriter(unspent_outs, false));
 
-        BufferedReader br;
-        String line;
+        readFileLines(tx_out_csv,
+                new IFileLineReader() {
 
-        br = new BufferedReader(new FileReader(csvFile));
+                    int maxLines = 770_294_424;
+                    int i = 0;
 
-        int maxLines = 770_294_424;
-        int i = 0;
+                    @Override
+                    public void onLineRead(String line) {
+                        i++;
+                        if (i % 10_000_000 == 0) {
+                            System.out.println("unspentOuts: " + i + " [" + (((double) i / maxLines) * 100) + "%]");
+                        }
+                    }
+                },
+                new IFileLineReader() {
 
-        while ((line = br.readLine()) != null) {
+                    @Override
+                    public void onLineRead(String line) {
+                        String[] lineSplit = line.split(CVS_SPLIT_BY, -1);
 
-            if (line.trim().isEmpty()) {
-                continue;
-            }
+                        if (!TxOut.address(lineSplit).startsWith("1")) {
+                            return;
+                        }
 
-            String[] lineSplit = line.split(CVS_SPLIT_BY, -1);
+                        if (BLOOM_FILTER.mightContain(uniqueTransKey(TxOut.txid(lineSplit), TxOut.indexOut(lineSplit)))) {
+                            return;
+                        }
 
-            try {
-                if (!TxOut.address(lineSplit).startsWith("1")) {
-                    continue;
+                        writer.append(TxOut.address(lineSplit) + ";" + TxOut.value(lineSplit) + "\r\n");
+                    }
                 }
-
-                if (BLOOM_FILTER.mightContain(uniqueTransKey(TxOut.txid(lineSplit), TxOut.indexOut(lineSplit)))) {
-                    continue;
-                }
-
-                writer.append(TxOut.address(lineSplit) + ";" + TxOut.value(lineSplit) + "\r\n");
-
-                i++;
-                if (i % 10_000_000 == 0) {
-                    System.out.println("unspentOuts: " + i + " [" + (((double) i / maxLines) * 100) + "%]");
-                }
-            } catch (Exception e) {
-                System.out.println();
-                System.out.println(line);
-                e.printStackTrace();
-            }
-        }
-
-        br.close();
-        writer.close();
+        );
     }
 
-    public static void readBloomFilter(String csvFile) throws IOException {
+    public static void readBloomFilter() throws IOException {
 
-        BufferedReader br;
-        String line;
+        readFileLines(tx_in_csv,
 
-        br = new BufferedReader(new FileReader(csvFile));
+                new IFileLineReader() {
 
-        int i = 0;
+                    int maxLines = 700_294_424;
+                    int i = 0;
 
-        int maxLines = 700_294_424;
+                    @Override
+                    public void onLineRead(String line) {
+                        i++;
+                        if (i % 1_000_000 == 0) {
+                            System.out.println("readBloomFilter: " + i + " [" + (((double) i / maxLines) * 100) + "%]");
+                        }
+                    }
+                },
+                new IFileLineReader() {
 
-        while ((line = br.readLine()) != null) {
-
-            if (line.trim().isEmpty()) {
-                continue;
-            }
-
-            String[] lineSplit = line.split(CVS_SPLIT_BY);
-            BLOOM_FILTER.put(uniqueTransKey(TxIn.hashPrevOut(lineSplit), TxIn.indexPrevOut(lineSplit)));
-
-            i++;
-            if (i % 10_000_000 == 0) {
-                System.out.println("readBloomFilter: " + i + " [" + (((double) i / maxLines) * 100) + "%]");
-            }
-        }
-
-        br.close();
+                    @Override
+                    public void onLineRead(String line) {
+                        String[] lineSplit = line.split(CVS_SPLIT_BY);
+                        BLOOM_FILTER.put(uniqueTransKey(TxIn.hashPrevOut(lineSplit), TxIn.indexPrevOut(lineSplit)));
+                    }
+                }
+        );
     }
 
     private static String uniqueTransKey(String hashPrevOut, String indexPrevOut) {
         return hashPrevOut/*.substring(0, 30) */ + "" + indexPrevOut;
+    }
+
+    public static void readFileLines(String filePath, IFileLineReader... lineReader) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(filePath));
+        String line;
+        while ((line = br.readLine()) != null) {
+            if (line.trim().isEmpty()) {
+                continue;
+            }
+
+            for (IFileLineReader iFileLineReader : lineReader) {
+
+                try {
+                    iFileLineReader.onLineRead(line);
+                } catch (Exception e) {
+                    System.out.println(line);
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        br.close();
+    }
+
+    public interface IFileLineReader {
+        void onLineRead(String line);
     }
 }
