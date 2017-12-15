@@ -18,7 +18,6 @@ public class BlockParser {
             800_000_000,
             0.000_000_000_001);
 
-
     public static void main(String[] args) throws IOException {
 
         long start = System.currentTimeMillis();
@@ -32,44 +31,7 @@ public class BlockParser {
         System.out.println(" Done in " + (System.currentTimeMillis() - start) + " ms. ");
     }
 
-    public static void unspentOuts() throws IOException {
-
-        PrintWriter writer = new PrintWriter(new FileWriter(unspent_outs, false));
-
-        readFileLines(tx_out_csv,
-                new IFileLineReader() {
-
-                    int maxLines = 770_294_424;
-                    int i = 0;
-
-                    @Override
-                    public void onLineRead(String line) {
-                        i++;
-                        if (i % 1_000_000 == 0) {
-                            System.out.println("unspentOuts: " + i + " [" + (((double) i / maxLines) * 100) + "%]");
-                        }
-                    }
-                },
-                new IFileLineReader() {
-
-                    @Override
-                    public void onLineRead(String line) {
-                        String[] lineSplit = line.split(CVS_SPLIT_BY, -1);
-
-                        if (!TxOut.address(lineSplit).startsWith("1")) {
-                            return;
-                        }
-
-                        if (BLOOM_FILTER.mightContain(uniqueTransKey(TxOut.txid(lineSplit), TxOut.indexOut(lineSplit)))) {
-                            return;
-                        }
-
-                        writer.append(TxOut.address(lineSplit) + ";" + TxOut.value(lineSplit) + "\r\n");
-                    }
-                }
-        );
-    }
-
+    // First step
     public static void readBloomFilter() throws IOException {
 
         readFileLines(tx_in_csv,
@@ -101,6 +63,50 @@ public class BlockParser {
                 }
         );
     }
+
+    // Second step
+    public static void unspentOuts() throws IOException {
+
+        PrintWriter writer = new PrintWriter(new FileWriter(unspent_outs, false));
+
+        readFileLines(tx_out_csv,
+                new IFileLineReader() {
+
+                    long start = System.currentTimeMillis();
+                    int maxLines = 770_294_424;
+                    int i = 0;
+
+                    @Override
+                    public void onLineRead(String line) {
+                        i++;
+                        if (i % 1_000_000 == 0) {
+                            long totalSpentMs = System.currentTimeMillis() - start;
+                            float speedPerSec = i / totalSpentMs * 1000;
+
+                            System.out.println("unspentOuts: " + (i / 1_000_000) + " m lines. Speed: " + speedPerSec / 1_000_000 + " m lines/sec " + " [" + Math.floor(((double) i / maxLines) * 100) + "%]");
+                        }
+                    }
+                },
+                new IFileLineReader() {
+
+                    @Override
+                    public void onLineRead(String line) {
+                        String[] lineSplit = line.split(CVS_SPLIT_BY, -1);
+
+                        if (!TxOut.address(lineSplit).startsWith("1")) {
+                            return;
+                        }
+
+                        if (BLOOM_FILTER.mightContain(uniqueTransKey(TxOut.txid(lineSplit), TxOut.indexOut(lineSplit)))) {
+                            return;
+                        }
+
+                        writer.append(TxOut.address(lineSplit) + ";" + TxOut.value(lineSplit) + "\r\n");
+                    }
+                }
+        );
+    }
+
 
     private static String uniqueTransKey(String hashPrevOut, String indexPrevOut) {
         return hashPrevOut/*.substring(0, 30) */ + "" + indexPrevOut;
