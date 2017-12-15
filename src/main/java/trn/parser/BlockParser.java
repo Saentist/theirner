@@ -45,7 +45,7 @@ public class BlockParser {
                     @Override
                     public void onLineRead(String line) {
                         i++;
-                        if (i % 10_000_000 == 0) {
+                        if (i % 1_000_000 == 0) {
                             System.out.println("unspentOuts: " + i + " [" + (((double) i / maxLines) * 100) + "%]");
                         }
                     }
@@ -76,6 +76,7 @@ public class BlockParser {
 
                 new IFileLineReader() {
 
+                    long start = System.currentTimeMillis();
                     int maxLines = 700_294_424;
                     int i = 0;
 
@@ -83,7 +84,10 @@ public class BlockParser {
                     public void onLineRead(String line) {
                         i++;
                         if (i % 1_000_000 == 0) {
-                            System.out.println("readBloomFilter: " + i + " [" + (((double) i / maxLines) * 100) + "%]");
+                            long totalSpentMs = System.currentTimeMillis() - start;
+                            float speedPerSec = i / totalSpentMs * 1000;
+
+                            System.out.println("readBloomFilter: " + (i / 1_000_000) + " m lines. Speed: " + speedPerSec / 1_000_000 + " m lines/sec " + " [" + Math.floor(((double) i / maxLines) * 100) + "%]");
                         }
                     }
                 },
@@ -91,7 +95,7 @@ public class BlockParser {
 
                     @Override
                     public void onLineRead(String line) {
-                        String[] lineSplit = line.split(CVS_SPLIT_BY);
+                        String[] lineSplit = line.split(CVS_SPLIT_BY, -1);
                         BLOOM_FILTER.put(uniqueTransKey(TxIn.hashPrevOut(lineSplit), TxIn.indexPrevOut(lineSplit)));
                     }
                 }
