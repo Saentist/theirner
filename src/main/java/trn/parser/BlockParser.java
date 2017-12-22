@@ -15,6 +15,8 @@ public class BlockParser {
     public static final String unspent_uq = "g:\\csv_dump\\unspent_uq.txt";
     public static final String unspent_total = "g:\\csv_dump\\unspent_total.txt";
 
+    public static final String addr_all = "g:\\csv_dump\\addr_all.txt";
+
     public static BloomFilter BLOOM_FILTER = BloomFilter.create(
             Funnels.stringFunnel(Charset.forName("UTF-8")),
             800_000_000,
