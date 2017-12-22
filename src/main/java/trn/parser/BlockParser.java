@@ -16,13 +16,16 @@ public class BlockParser {
     public static final String unspent_total = "g:\\csv_dump\\unspent_total.txt";
 
     public static final String addr_all = "g:\\csv_dump\\addr_all.txt";
+    public static final String addr_all_bin = "g:\\csv_dump\\addr_all.bin";
 
-    public static BloomFilter BLOOM_FILTER = BloomFilter.create(
-            Funnels.stringFunnel(Charset.forName("UTF-8")),
-            800_000_000,
-            0.000_000_000_001);
+    private static BloomFilter BLOOM_FILTER;
 
     public static void main(String[] args) throws IOException {
+
+        BLOOM_FILTER = BloomFilter.create(
+                Funnels.stringFunnel(Charset.forName("UTF-8")),
+                800_000_000,
+                0.000_000_000_001);
 
         long start = System.currentTimeMillis();
 

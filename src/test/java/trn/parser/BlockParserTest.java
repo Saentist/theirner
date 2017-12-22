@@ -1,19 +1,27 @@
 package trn.parser;
 
+import com.google.common.hash.BloomFilter;
+import com.google.common.hash.Funnels;
 import junit.framework.TestCase;
 
 import java.io.*;
+import java.nio.charset.Charset;
 
 public class BlockParserTest extends TestCase {
 
+    BloomFilter BLOOM_FILTER = BloomFilter.create(
+            Funnels.stringFunnel(Charset.forName("UTF-8")),
+            800,
+            0.000_001);
+
     public void testBloom() {
-        BlockParser.BLOOM_FILTER.put("50748b7a193a0b23f1e9494b51131d2f954cc6cf4792bacc69d207d16002080d");
-        BlockParser.BLOOM_FILTER.put("04391286b3aefbb5df4cdb515ac7fce7942525fa602e1d7757e90a4fd41a1e20");
-        BlockParser.BLOOM_FILTER.put("701ce76c033e0b03fa79503770a5874840373e30cd9c1eca472ec66617f3a3ee");
+        BLOOM_FILTER.put("50748b7a193a0b23f1e9494b51131d2f954cc6cf4792bacc69d207d16002080d");
+        BLOOM_FILTER.put("04391286b3aefbb5df4cdb515ac7fce7942525fa602e1d7757e90a4fd41a1e20");
+        BLOOM_FILTER.put("701ce76c033e0b03fa79503770a5874840373e30cd9c1eca472ec66617f3a3ee");
 
-        assertTrue(BlockParser.BLOOM_FILTER.mightContain("701ce76c033e0b03fa79503770a5874840373e30cd9c1eca472ec66617f3a3ee"));
+        assertTrue(BLOOM_FILTER.mightContain("701ce76c033e0b03fa79503770a5874840373e30cd9c1eca472ec66617f3a3ee"));
 
-        assertFalse(BlockParser.BLOOM_FILTER.mightContain("_701ce76c033e0b03fa79503770a5874840373e30cd9c1eca472ec66617f3a3ee"));
+        assertFalse(BLOOM_FILTER.mightContain("_701ce76c033e0b03fa79503770a5874840373e30cd9c1eca472ec66617f3a3ee"));
     }
 
     public void testReaFile() throws IOException {

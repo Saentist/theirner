@@ -1,14 +1,23 @@
 package trn.parser;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import com.google.common.hash.BloomFilter;
+import com.google.common.hash.Funnels;
+
+import java.io.*;
+import java.nio.charset.Charset;
 
 public class BlockParserAll {
 
+    private static BloomFilter BLOOM_FILTER;
+
     public static void main(String[] args) throws IOException {
 
-        PrintWriter writer_addr_uq = new PrintWriter(new FileWriter(BlockParser.addr_all, false));
+        BLOOM_FILTER = BloomFilter.create(
+                Funnels.stringFunnel(Charset.forName("UTF-8")),
+                22_000_000,
+                0.000_000_001);
+
+        //PrintWriter writer_addr_uq = new PrintWriter(new FileWriter(BlockParser.addr_all, false));
 
         BlockParser.readFileLines(BlockParser.unspent_outs,
 
@@ -24,7 +33,7 @@ public class BlockParserAll {
                             long totalSpentMs = System.currentTimeMillis() - start;
                             float speedPerSec = i / totalSpentMs * 1000;
 
-                            writer_addr_uq.flush();
+                            //writer_addr_uq.flush();
                             System.out.println("unspentOuts: " + (i / 1_000_000) + " m lines. Speed: " + speedPerSec / 1_000_000 + " m lines/sec ");
                         }
                     }
@@ -41,19 +50,25 @@ public class BlockParserAll {
                             return;
                         }
 
-                        if (BlockParser.BLOOM_FILTER.mightContain(address)) {
+                        if (BLOOM_FILTER.mightContain(address)) {
                             return;
                         }
 
-                        BlockParser.BLOOM_FILTER.put(address);
+                        BLOOM_FILTER.put(address);
 
-                        writer_addr_uq.append(address + "\r\n");
+                        //writer_addr_uq.append(address + "\r\n");
                     }
                 }
         );
 
-        writer_addr_uq.close();
+        //writer_addr_uq.close();
 
-        System.out.println("BlockParserAll: done: " + BlockParser.BLOOM_FILTER.approximateElementCount() + " addresses.");
+        FileOutputStream fout = new FileOutputStream(BlockParser.addr_all_bin);
+        ObjectOutputStream oos = new ObjectOutputStream(fout);
+        oos.writeObject(BLOOM_FILTER);
+
+        oos.close();
+
+        System.out.println("BlockParserAll: done: " + BLOOM_FILTER.approximateElementCount() + " addresses.");
     }
 }
