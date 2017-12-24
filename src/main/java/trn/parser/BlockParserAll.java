@@ -2,6 +2,7 @@ package trn.parser;
 
 import com.google.common.hash.BloomFilter;
 import com.google.common.hash.Funnels;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -14,8 +15,8 @@ public class BlockParserAll {
 
         BLOOM_FILTER = BloomFilter.create(
                 Funnels.stringFunnel(Charset.forName("UTF-8")),
-                200_000_000,
-                0.000_000_000_001);
+                310_000_000,
+                0.000_000_000_1);
 
         PrintWriter writer_addr_uq = new PrintWriter(new FileWriter(BlockParser.addr_all, false));
 
@@ -45,6 +46,10 @@ public class BlockParserAll {
                         String[] lineSplit = line.split(BlockParser.CVS_SPLIT_BY, -1);
 
                         String address = lineSplit[4];
+
+                        if (!StringUtils.startsWith(address, "1")) {
+                            return;
+                        }
 
                         if (BLOOM_FILTER.mightContain(address)) {
                             return;
