@@ -48,8 +48,14 @@ git clone https://github.com/pendashteh/vanitygen.git
 checkout macosx
 
 
-$ brew install openssl && brew install pcre
-$ make -f Makefile.macosx
+brew install openssl && brew install pcre
+
+make -f Makefile.macosx vanitygen
+make -f Makefile.macosx oclvanitygen
+
+make -f Makefile.macosx clean vanitygen oclvanitygen
+
+./oclvanitygen -d2 1a22
 
 ./vanitygen 1aaaa
 [361.70 Kkey/s]
@@ -67,7 +73,7 @@ Available OpenCL platforms:
 [9.49 Mkey/s] AMD Radeon R9 M370X
 
 
-./oclvanitygen -d2 1a1exz
+
 
 
 

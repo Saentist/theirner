@@ -7,3 +7,14 @@ Bitcoin’s own security is based on 256-bit private keys. 256 bits or, for bitc
 
 
 115792089237316195423570985008687907853269984665640564039457584007913129639936
+0000000000000000000000000000000000000000
+
+
+https://coinmarketcap.com/
+https://byteball.org/
+https://explorer.byteball.org/
+https://charts.bitcoin.com/
+https://bitcointicker.co/
+http://bitcointicker.co/coinbase/
+https://www.gdax.com/
+https://cex.io/buysell

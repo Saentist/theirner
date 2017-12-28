@@ -30,10 +30,11 @@ public class Main {
             @Override
             public void run() {
                 writer.append("Processed: " + counter.get() + "\n");
+                System.out.println("Processed: " + counter.get() + "\n");
                 writer.flush();
             }
         };
 
-        timer.schedule(minutelyTask, 0l, 1000 * 60);
+        timer.schedule(minutelyTask, 0l, 1000 * 10);
     }
 }
