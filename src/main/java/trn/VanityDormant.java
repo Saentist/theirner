@@ -9,6 +9,7 @@ import java.io.PrintWriter;
  */
 public class VanityDormant {
 
+
     public static void main(String[] args) throws IOException {
 
         int maxLength = "1FeexV6bAHb8ybZjqQMjJrcCrHG".length();
